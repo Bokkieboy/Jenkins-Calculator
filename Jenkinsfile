@@ -1,53 +1,49 @@
 pipeline {
-    agent any
+    agent any  // Runs on any available Jenkins agent
 
     environment {
-        IMAGE_NAME = "simple-calculator"
-        CONTAINER_NAME = "calculator-app"
-        GITHUB_REPO = "https://github.com/Bokkieboy/UniCalculator.git"
-        TEST_SCRIPT = "test_calculator.py"  // Ensure you have a test script
+        DOCKER_IMAGE = 'simple-calculator'
+        CONTAINER_NAME = 'calculator-app'
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                echo "Cloning repository from GitHub..."
-                git branch: 'main', url: "${GITHUB_REPO}"
+                git branch: 'main', url: 'https://github.com/Bokkieboy/UniCalculator.git'
             }
         }
 
         stage('Build Application') {
             steps {
-                echo "Building Docker image..."
-                sh 'docker build -t ${IMAGE_NAME} .'
+                script {
+                    sh 'docker build -t ${DOCKER_IMAGE} .'
+                }
             }
         }
 
         stage('Test Application') {
             steps {
-                echo "Running tests..."
-                sh 'docker run --rm ${IMAGE_NAME} python3 ${TEST_SCRIPT} || true'  // Run inside container
+                script {
+                    sh 'python3 -m unittest discover -s tests'
+                }
             }
         }
 
         stage('Deploy Application') {
             steps {
-                echo "Deploying application..."
-                sh 'docker run -d --rm --name ${CONTAINER_NAME} -p 5050:5050 ${IMAGE_NAME}'
+                script {
+                    sh 'docker run -d -p 5050:5050 --name ${CONTAINER_NAME} ${DOCKER_IMAGE}'
+                }
             }
         }
     }
 
     post {
         success {
-            echo "Pipeline completed successfully!"
+            echo 'Pipeline executed successfully!'
         }
         failure {
-            echo "Pipeline failed. Check logs for details."
-        }
-         always {
-            archiveArtifacts artifacts: 'build_logs.txt', fingerprint: true
-
+            echo 'Pipeline execution failed!'
         }
     }
 }
