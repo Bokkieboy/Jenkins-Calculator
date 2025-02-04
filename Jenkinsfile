@@ -45,5 +45,9 @@ pipeline {
         failure {
             echo "Pipeline failed. Check logs for details."
         }
+         always {
+            archiveArtifacts artifacts: 'build_logs.txt', fingerprint: true
+
+        }
     }
 }
