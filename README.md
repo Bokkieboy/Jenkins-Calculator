@@ -1,5 +1,5 @@
-# UniCalculator  
-UniCalculator is a simple web-based calculator application developed to demonstrate Continuous Integration and Continuous Deployment (CI/CD) using Jenkins, Docker, and GitHub.  
+# Jenkins Calculator  
+Jenkins Calculator is a simple web-based calculator application developed to demonstrate Continuous Integration and Continuous Deployment (CI/CD) using Jenkins, Docker, and GitHub.  
 ## Features  
 - Basic arithmetic operations (add, subtract, multiply, divide)  
 - Dockerized application for easy deployment  
@@ -17,7 +17,7 @@ UniCalculator is a simple web-based calculator application developed to demonstr
 - Jenkins installed (locally or using Docker)  
 - GitHub account  
 ### Clone the Repository  
-`git clone https://github.com/Bokkieboy/UniCalculator.git && cd UniCalculator`  
+`git clone https://github.com/Bokkieboy/Jenkins-Calculator.git && cd Jenkins-Calculator`  
 ### Running Locally with Docker  
 `docker build -t simple-calculator . && docker run -p 3000:3000 simple-calculator`  
 ## Jenkins Setup  
@@ -25,7 +25,7 @@ UniCalculator is a simple web-based calculator application developed to demonstr
 2. Complete the Jenkins setup wizard and install recommended plugins.  
 3. Install additional plugins: Git, Docker Pipeline, GitHub Integration.  
 4. Create a new Pipeline job.  
-5. Configure the job: set Pipeline script from SCM, select Git, and use repository URL `https://github.com/Bokkieboy/UniCalculator.git`.  
+5. Configure the job: set Pipeline script from SCM, select Git, and use repository URL `https://github.com/Bokkieboy/Jenkins-Calculator.git`.  
 6. Ensure webhook is configured on GitHub under Repo Settings > Webhooks, with Payload URL `http://<your-jenkins-host>/github-webhook/` and content type `application/json`.  
 7. Add a `Jenkinsfile` to your repo that defines build, test, and deploy stages using Docker.  
 8. Ensure Docker is accessible to the Jenkins container (mount the Docker socket).  
